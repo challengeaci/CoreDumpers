@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+                function loadFile(o)
+                {
+                    var fr = new FileReader();
+                    fr.onload = function(e)
+                        {
+                            showDataFile(e, o);
+                        };
+                    fr.readAsText(o.files[0]);
+                }
+
+                function showDataFile(e, o)
+                {
+                    document.getElementById("data").innerText = "Is the expected kWh : "+e.target.result;
+                    var data = e.target.result.split(" ");
+                    var randomNumber1 = Math.floor(Math.random() * 100);
+                    var randomNumber2 = Math.floor(Math.random() * 100);
+                    var data1 = parseInt(data[0]);
+                    var data2 = parseInt(data[1]);
+                    document.getElementById("data2").innerText = "\nIs the assumed availabe kWh : "+randomNumber1+" "+randomNumber2+" ";
+                    document.getElementById("data3").innerText = "Status";
+                    var timee = Math.round(((randomNumber1+data1) - (randomNumber2+data2))/7);
+                    document.getElementById("data5").style.color = "blue";
+                    document.getElementById("data6").style.color = "#800080";
+                    if (randomNumber1+data1 <= randomNumber2+data2){
+                      document.getElementById("data4").style.color = "red";
+                      document.getElementById("data4").innerText = "Need to generate power.";
+                      var timee = timee*-1;
+                      document.getElementById("data5").innerText = "Estimated time to generate power : "+timee + "days.";
+                      document.getElementById("data6").innerText = "Estimated energy needed : "+timee*7 + "kWh";
+                    }else{
+                      document.getElementById("data4").style.color = "green";
+                      document.getElementById("data4").innerText = "Sufficient power available.";
+                      document.getElementById("data5").innerText = "Estimated time to halt power generation : "+timee + "days.";
+                      document.getElementById("data6").innerText = "Estimated energy stored : "+timee*7 + "kWh.";
+                    }
+                }
+            </script>
+
+        </script>
+    </head>
+    <body>
+        Select file to read <input type="file" onchange="loadFile(this)" >
+        <pre id="data"></pre>
+        <pre id="data2"></pre>
+        <center>
+          <h1><pre id="data3"></pre></h1>
+          <h1><pre id="data4"></pre></h1>
+          <h1><pre id="data5"></pre></h1>
+          <h1><pre id="data6"></pre></h1>
+      </center>
+    </body>
+</html>
